@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './style.scss';
 import { MdOutlineSearch, MdNotifications, MdArrowDropDown } from "react-icons/md";
+import logo from "../../logo.png"
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -15,7 +16,7 @@ const Navbar = () => {
             <div className="container">
                 <div className="left">
                     <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/2560px-Netflix_2015_logo.svg.png"
+                        src={logo}
                         alt=""
                     />
                     <a href="/">Homepage</a>
