@@ -7,6 +7,7 @@
   z-index: 999;
   background: linear-gradient(to top, transparent 0%, rgb(0, 0, 0, 0.3) 50%);
   transition: 0.5s;
+
   &.scrolled {
     background-color: var(--main-color);
   }
@@ -27,9 +28,33 @@
         margin-right: 40px;
       }
 
-      span {
+    }
+
+    a {
+      color: var(--white-color);
+      font-weight: 400;
+      font-size: 18px;
+      position: relative;
+      cursor: pointer;
+
+      &::before {
+        position: absolute;
+        content: '';
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        border-radius: 10px;
+        background-color: var(--white-color);
+        transition: 0.5s;
+      }
+
+      &:not(:last-child) {
         margin-right: 20px;
-        cursor: pointer;
+      }
+
+      &:hover::before {
+        width: 100%;
       }
     }
 
@@ -39,7 +64,12 @@
 
       .icon {
         margin: 0px 15px;
+        font-size: 18px;
         cursor: pointer;
+      }
+
+      a::before {
+        display: none;
       }
 
       img {
@@ -55,9 +85,12 @@
           display: none;
           background-color: var(--main-color);
           border-radius: 5px;
+          flex-direction: column;
+          position: absolute;
         }
 
-        span {
+        a {
+          margin-right: 0;
           padding: 10px;
           cursor: pointer;
         }
@@ -65,8 +98,7 @@
         &:hover {
           .options {
             display: flex;
-            flex-direction: column;
-            position: absolute;
+
           }
         }
       }
