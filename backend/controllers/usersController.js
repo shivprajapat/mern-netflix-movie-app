@@ -90,7 +90,16 @@ const updateUser = async (req, res) => {
 // @access  Public
 
 const deleteUser = async (req, res) => {
-    res.send({ message: "delete user" })
+    if (req.user.id === req.params.id || req.user.isAdmin) {
+        try {
+            await User.findByIdAndDelete(req.params.id);
+            res.status(200).json("User has been deleted...");
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    } else {
+        res.status(403).json("You can delete only your account!");
+    }
 }
 
 module.exports = {
