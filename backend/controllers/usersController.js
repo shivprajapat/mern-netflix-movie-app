@@ -23,7 +23,13 @@ const getUser = async (req, res) => {
 // @route   GET /api/v1/users/find/:id
 // @access  Public
 const getUserID = async (req, res) => {
-    res.send({ message: "get user id" })
+    try {
+        const user = await User.findById(req.params.id);
+        const { password, ...info } = user._doc;
+        res.status(200).json(info);
+    } catch (err) {
+        res.status(500).json(err);
+    }
 }
 
 // @desc    Get Stats
