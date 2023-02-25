@@ -4,7 +4,7 @@ const User = require("../models/User");
 
 // @desc    Get All Users
 // @route   GET /api/v1/users
-// @access  Public
+// @access  Private
 const getUser = async (req, res) => {
     const query = req.query.new;
     if (req.user.isAdmin) {
@@ -21,7 +21,7 @@ const getUser = async (req, res) => {
 
 // @desc    Get Find User
 // @route   GET /api/v1/users/find/:id
-// @access  Public
+// @access  Private
 const getUserID = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
@@ -34,7 +34,7 @@ const getUserID = async (req, res) => {
 
 // @desc    Get Stats
 // @route   GET /api/v1/users/stats
-// @access  Public
+// @access  Private
 
 const getStats = async (req, res) => {
     const today = new Date();
@@ -62,7 +62,7 @@ const getStats = async (req, res) => {
 
 // @desc    Update User
 // @route   PUT /api/v1/users/:id
-// @access  Public
+// @access  Private
 
 const updateUser = async (req, res) => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
@@ -87,7 +87,7 @@ const updateUser = async (req, res) => {
 
 // @desc    Delete User
 // @route   DELETE /api/v1/users
-// @access  Public
+// @access  Private
 
 const deleteUser = async (req, res) => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
