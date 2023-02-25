@@ -4,15 +4,15 @@ import List from '../../components/list';
 import Navbar from '../../components/Navbar';
 import './style.scss';
 
-const Home = () => {
+const Home = ({ type }) => {
   return (
     <div className="home">
-      <Navbar/>
-      <Featured/>
-      <List/>
-      <List/>
-      <List/>
-      <List/>
+      <Navbar />
+      <Featured type={type} />
+      <List />
+      <List />
+      <List />
+      <List />
     </div>
   )
 }

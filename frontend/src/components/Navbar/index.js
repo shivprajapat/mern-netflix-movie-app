@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './style.scss';
 import { MdOutlineSearch, MdNotifications, MdArrowDropDown } from "react-icons/md";
 import logo from "../../logo.png"
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -15,15 +16,22 @@ const Navbar = () => {
         <div className={isScrolled ? "navbar scrolled" : "navbar"}>
             <div className="container">
                 <div className="left">
-                    <img
-                        src={logo}
-                        alt=""
-                    />
-                    <a href="/">Homepage</a>
-                    <a href="/">Series</a>
-                    <a href="/">Movies</a>
+                    <Link to='/' className='logo'>
+                        <img src={logo} alt="logo" />
+                    </Link>
+                    <div className='nav-items'>
+                    <Link to="/">
+                        <span>Homepage</span>
+                    </Link>
+                    <Link to="/series">
+                        <span>Series</span>
+                    </Link>
+                    <Link to="/movies">
+                        <span>Movies</span>
+                    </Link>
                     <a href="/">New and Popular</a>
                     <a href="/">My List</a>
+                    </div>
                 </div>
                 <div className="right">
                     <MdOutlineSearch className="icon" />

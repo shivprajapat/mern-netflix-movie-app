@@ -1,15 +1,22 @@
 import './App.scss';
-// import Home from './pages/home/inde';
-import Login from './pages/login';
-// import Register from './pages/register';
-// import Watch from './pages/watch';
+import { Home, Login, Register, Watch } from './pages';
+import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from './routes/ProtectedRoute';
 
 function App() {
+  const isAuthenticated = true;
   return (
-    // <Home/>
-    // <Watch/>
-    // <Register/>
-    <Login/>
+    <Routes>
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+
+      <Route element={<ProtectedRoute isAuthenticated={isAuthenticated} />}>
+        <Route path='/' element={<Home />} />
+        <Route path='/watch' element={<Watch />} />
+        <Route path='/series' element={<Home type="series" />} />
+        <Route path='/movies' element={<Home type="movies" />} />
+      </Route>
+    </Routes>
   );
 }
 
