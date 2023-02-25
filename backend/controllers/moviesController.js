@@ -52,7 +52,24 @@ const getMovieID = async (req, res) => {
 // @access  Private
 
 const getRandom = async (req, res) => {
-    res.status(200).json({ message: "random request" });
+    const type = req.query.type;
+    let movie;
+    try {
+        if (type === "series") {
+            movie = await Movie.aggregate([
+                { $match: { isSeries: true } },
+                { $sample: { size: 1 } },
+            ]);
+        } else {
+            movie = await Movie.aggregate([
+                { $match: { isSeries: false } },
+                { $sample: { size: 1 } },
+            ]);
+        }
+        res.status(200).json(movie);
+    } catch (err) {
+        res.status(500).json(err);
+    }
 }
 
 // @desc    Update Movie
