@@ -62,20 +62,20 @@ const getRandom = async (req, res) => {
 const updateMovie = async (req, res) => {
     if (req.user.isAdmin) {
         try {
-          const updatedMovie = await Movie.findByIdAndUpdate(
-            req.params.id,
-            {
-              $set: req.body,
-            },
-            { new: true }
-          );
-          res.status(200).json(updatedMovie);
+            const updatedMovie = await Movie.findByIdAndUpdate(
+                req.params.id,
+                {
+                    $set: req.body,
+                },
+                { new: true }
+            );
+            res.status(200).json(updatedMovie);
         } catch (err) {
-          res.status(500).json(err);
+            res.status(500).json(err);
         }
-      } else {
+    } else {
         res.status(403).json("You are not allowed!");
-      }
+    }
 }
 
 // @desc    Delete Movie
@@ -83,7 +83,17 @@ const updateMovie = async (req, res) => {
 // @access  Private
 
 const deleteMovie = async (req, res) => {
-    res.status(200).json({ message: "movie delete request" });
+    if (req.user.isAdmin) {
+        try {
+            await Movie.findByIdAndDelete(req.params.id)
+            res.status(200).json("The movie has been deleted...");
+        } catch (error) {
+            res.status(500).send(error)
+        }
+    }
+    else {
+        res.status(403).json("You are not allowed!");
+    }
 }
 
 module.exports = {
