@@ -11,7 +11,16 @@ const getList = async (req, res) => {
 // @route   POST /api/v1/lists
 // @access  Private
 const setList = async (req, res) => {
-    res.status(200).json("set List request!");
+    if (req.user.isAdmin) {
+        const newList = new List(req.body);
+        try {
+            const saveList = await newList.save()
+            res.status(200).json(saveList);
+        } catch (error) {
+            res.status(500).json(error)
+        }
+    }
+
 }
 
 // @desc    Delete List
