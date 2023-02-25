@@ -24,7 +24,7 @@ const setMovie = async (req, res) => {
 
         try {
             const saveMovie = await newMovie.save()
-            res.status(201).json(saveMovie);
+            res.status(200).json(saveMovie);
 
         } catch (error) {
             res.status(500).json(error);
@@ -39,7 +39,12 @@ const setMovie = async (req, res) => {
 // @route   GET /api/v1/movies/find/:id
 // @access  Private
 const getMovieID = async (req, res) => {
-    res.status(200).json({ message: "get movie id request", id: req.params.id });
+    try {
+        const movie = await Movie.findById(req.params.id);
+        res.status(200).json(movie);
+    } catch (error) {
+        res.status(500).json(error)
+    }
 }
 
 // @desc    Get Random
