@@ -60,7 +60,22 @@ const getRandom = async (req, res) => {
 // @access  Private
 
 const updateMovie = async (req, res) => {
-    res.status(200).json({ message: "movie update request" });
+    if (req.user.isAdmin) {
+        try {
+          const updatedMovie = await Movie.findByIdAndUpdate(
+            req.params.id,
+            {
+              $set: req.body,
+            },
+            { new: true }
+          );
+          res.status(200).json(updatedMovie);
+        } catch (err) {
+          res.status(500).json(err);
+        }
+      } else {
+        res.status(403).json("You are not allowed!");
+      }
 }
 
 // @desc    Delete Movie
