@@ -1,6 +1,7 @@
 const env = require("../config/envConfig");
 const CryptoJS = require("crypto-js");
 const User = require("../models/User");
+const status = require('../helper/api.responses')
 
 // @desc    Get All Users
 // @route   GET /api/v1/users
@@ -10,12 +11,12 @@ const getUser = async (req, res) => {
     if (req.user.isAdmin) {
         try {
             const users = query ? await User.find().sort({ _id: -1 }).limit(10) : await User.find();
-            res.status(200).json(users);
+            res.status(status.OK).json(users);
         } catch (err) {
-            res.status(500).json(err);
+            res.status(status.InternalServerError).json(err);
         }
     } else {
-        res.status(403).json("You are not allowed to see all users!");
+        res.status(status.Forbidden).json("You are not allowed to see all users!");
     }
 }
 
@@ -26,9 +27,9 @@ const getUserID = async (req, res) => {
     try {
         const user = await User.findById(req.params.id);
         const { password, ...info } = user._doc;
-        res.status(200).json(info);
+        res.status(status.OK).json(info);
     } catch (err) {
-        res.status(500).json(err);
+        res.status(status.InternalServerError).json(err);
     }
 }
 
@@ -54,9 +55,9 @@ const getStats = async (req, res) => {
                 },
             },
         ]);
-        res.status(200).json(data)
+        res.status(status.OK).json(data)
     } catch (err) {
-        res.status(500).json(err);
+        res.status(status.InternalServerError).json(err);
     }
 }
 
@@ -78,9 +79,9 @@ const updateUser = async (req, res) => {
                 $set: req.body
             }, { new: true }
             )
-            res.status(200).json(updateUser)
+            res.status(status.OK).json(updateUser)
         } catch (error) {
-            res.status(500).json(error)
+            res.status(status.InternalServerError).json(error)
         }
     }
 }
@@ -93,12 +94,12 @@ const deleteUser = async (req, res) => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
         try {
             await User.findByIdAndDelete(req.params.id);
-            res.status(200).json("User has been deleted...");
+            res.status(status.OK).json("User has been deleted...");
         } catch (err) {
-            res.status(500).json(err);
+            res.status(status.InternalServerError).json(err);
         }
     } else {
-        res.status(403).json("You can delete only your account!");
+        res.status(status.Forbidden).json("You can delete only your account!");
     }
 }
 

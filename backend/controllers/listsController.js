@@ -1,4 +1,5 @@
 const List = require("../models/List");
+const status = require('../helper/api.responses')
 
 // @desc    Get List
 // @route   GET /api/v1/lists
@@ -24,9 +25,9 @@ const getList = async (req, res) => {
         else {
             list = await List.aggregate([{ $sample: { size: 10 } }]);
         }
-        res.status(200).json(list);
+        res.status(status.OK).json(list);
     } catch (error) {
-        res.status(500).json(error)
+        res.status(status.InternalServerError).json(error)
     }
 }
 
@@ -38,9 +39,9 @@ const setList = async (req, res) => {
         const newList = new List(req.body);
         try {
             const saveList = await newList.save()
-            res.status(201).json(saveList);
+            res.status(status.Create).json(saveList);
         } catch (error) {
-            res.status(500).json(error)
+            res.status(status.InternalServerError).json(error)
         }
     }
 
@@ -54,12 +55,12 @@ const deleteList = async (req, res) => {
     if (req.user.isAdmin) {
         await List.findByIdAndDelete(req.params.id)
         try {
-            res.status(201).json('The list has been delete...');
+            res.status(status.Create).json('The list has been delete...');
         } catch (error) {
-            res.status(500).json(error)
+            res.status(status.InternalServerError).json(error)
         }
     } else {
-        res.status(403).json("You are not allowed!");
+        res.status(status.Forbidden).json("You are not allowed!");
     }
 }
 

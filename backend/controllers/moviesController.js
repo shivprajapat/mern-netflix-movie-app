@@ -1,4 +1,5 @@
 const Movie = require("../models/Movie");
+const status = require('../helper/api.responses')
 
 // @desc    Get All Movies
 // @route   GET /api/v1/movies
@@ -7,9 +8,9 @@ const getMovie = async (req, res) => {
     if (req.user.isAdmin) {
         try {
             const movies = await Movie.find()
-            res.status(200).json(movies.reverse());
+            res.status(status.OK).json(movies.reverse());
         } catch (error) {
-            req.status(500).json(error)
+            res.status(status.InternalServerError).json(error)
         }
     }
 
@@ -24,14 +25,14 @@ const setMovie = async (req, res) => {
 
         try {
             const saveMovie = await newMovie.save()
-            res.status(200).json(saveMovie);
+            res.status(status.OK).json(saveMovie);
 
         } catch (error) {
-            res.status(500).json(error);
+            res.status(status.InternalServerError).json(error);
         }
     }
     else {
-        res.status(403).json("You are not allowed!");
+        res.status(status.Forbidden).json("You are not allowed!");
     }
 }
 
@@ -41,9 +42,9 @@ const setMovie = async (req, res) => {
 const getMovieID = async (req, res) => {
     try {
         const movie = await Movie.findById(req.params.id);
-        res.status(200).json(movie);
+        res.status(status.OK).json(movie);
     } catch (error) {
-        res.status(500).json(error)
+        res.status(status.InternalServerError).json(error)
     }
 }
 
@@ -66,9 +67,9 @@ const getRandom = async (req, res) => {
                 { $sample: { size: 1 } },
             ]);
         }
-        res.status(200).json(movie);
+        res.status(status.OK).json(movie);
     } catch (err) {
-        res.status(500).json(err);
+        res.status(status.InternalServerError).json(err);
     }
 }
 
@@ -86,12 +87,12 @@ const updateMovie = async (req, res) => {
                 },
                 { new: true }
             );
-            res.status(200).json(updatedMovie);
+            res.status(status.OK).json(updatedMovie);
         } catch (err) {
-            res.status(500).json(err);
+            res.status(status.InternalServerError).json(err);
         }
     } else {
-        res.status(403).json("You are not allowed!");
+        res.status(status.Forbidden).json("You are not allowed!");
     }
 }
 
@@ -103,13 +104,13 @@ const deleteMovie = async (req, res) => {
     if (req.user.isAdmin) {
         try {
             await Movie.findByIdAndDelete(req.params.id)
-            res.status(200).json("The movie has been deleted...");
+            res.status(status.OK).json("The movie has been deleted...");
         } catch (error) {
-            res.status(500).send(error)
+            res.status(status.InternalServerError).send(error)
         }
     }
     else {
-        res.status(403).json("You are not allowed!");
+        res.status(status.Forbidden).json("You are not allowed!");
     }
 }
 
