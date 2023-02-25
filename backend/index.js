@@ -12,6 +12,7 @@ app.use(express.json());
 app.use("/api/v1/auth", require("./routes/auth"))
 app.use("/api/v1/users", require("./routes/users"))
 app.use("/api/v1/movies", require("./routes/movies"))
+app.use("/api/v1/lists", require("./routes/lists"))
 
 app.get("/", (req, res) => res.send("<h1>Welcome to MERN Stack Netflix Movie App</h1>"));
 

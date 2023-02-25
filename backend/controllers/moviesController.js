@@ -16,7 +16,7 @@ const getMovie = async (req, res) => {
 }
 
 // @desc    Set Movie
-// @route   POST /api/v1/auth
+// @route   POST /api/v1/movies
 // @access  Private
 const setMovie = async (req, res) => {
     if (req.user.isAdmin) {
