@@ -4,7 +4,15 @@ const Movie = require("../models/Movie");
 // @route   GET /api/v1/movies
 // @access  Private
 const getMovie = async (req, res) => {
-    res.status(200).json({ message: "all movies request" });
+    if (req.user.isAdmin) {
+        try {
+            const movies = await Movie.find()
+            res.status(200).json(movies.reverse());
+        } catch (error) {
+            req.status(500).json(error)
+        }
+    }
+
 }
 
 // @desc    Set Movie

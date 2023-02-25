@@ -11,7 +11,7 @@ const verify = require("../middleware/authMiddleware");
 
 // ! Movies
 
-router.route("/",).post(verify, getMovie).get(verify, setMovie);
+router.route("/",).post(verify, setMovie).get(verify, getMovie);
 router.get("/random", verify, getRandom);
 router.get("/find/:id", verify, getMovieID);
 router.route("/:id").put(verify, updateMovie).delete(verify, deleteMovie);
