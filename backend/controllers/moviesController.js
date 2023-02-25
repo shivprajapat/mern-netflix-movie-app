@@ -1,6 +1,4 @@
-const env = require("../config/envConfig");
-const CryptoJS = require("crypto-js");
-const User = require("../models/User");
+const Movie = require("../models/Movie");
 
 // @desc    Get All Movies
 // @route   GET /api/v1/movies
@@ -13,7 +11,20 @@ const getMovie = async (req, res) => {
 // @route   POST /api/v1/auth
 // @access  Private
 const setMovie = async (req, res) => {
-    res.status(200).json({ message: "set movie request" });
+    if (req.user.isAdmin) {
+        const newMovie = new Movie(req.body);
+
+        try {
+            const saveMovie = await newMovie.save()
+            res.status(201).json(saveMovie);
+
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    }
+    else {
+        res.status(403).json("You are not allowed!");
+    }
 }
 
 // @desc    Get Find Movie
