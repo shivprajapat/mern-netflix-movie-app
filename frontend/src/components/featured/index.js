@@ -1,8 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './style.scss';
 import { MdPlayArrow, MdInfoOutline } from "react-icons/md";
+import axios from "axios";
+import { apiUrl } from '../../utils/apiUrl'
 
 const Featured = ({ type }) => {
+    const [content, setContent] = useState({});
+    useEffect(() => {
+        const getRandomContent = async () => {
+            try {
+                const res = await axios.get(`${apiUrl}/movies/random?type=${type}`, {
+                    headers: {
+                        token: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzZjhiYzU5ZTYyYjFlYTI4ZGIxMDE3OCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE2NzcyNDU2NTIsImV4cCI6MTY3NzY3NzY1Mn0.MBEONjU_JxhBNhlIp1o9pQCPWmaEvs78gqcBewFsw7M"
+                    }
+                })
+                setContent(res.data[0])
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        getRandomContent()
+    }, [type])
+    console.log({ content });
+
     return (
         <div className="featured">
             {type && (
@@ -26,21 +46,11 @@ const Featured = ({ type }) => {
                     </select>
                 </div>
             )}
-            <img
-                src="https://static1.colliderimages.com/wordpress/wp-content/uploads/2020/11/best-documentaries-netflix.jpg"
-                alt=""
-            />
+            <img src={content.img} alt="" />
+
             <div className="info">
-                {/* <img
-                    src="https://occ-0-1432-1433.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABUZdeG1DrMstq-YKHZ-dA-cx2uQN_YbCYx7RABDk0y7F8ZK6nzgCz4bp5qJVgMizPbVpIvXrd4xMBQAuNe0xmuW2WjoeGMDn1cFO.webp?r=df1"
-                    alt=""
-                /> */}
-                <span className="desc">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae
-                    adipisci repellendus eum quasi illo, velit numquam, maxime tempora
-                    sint deleniti, aliquid qui? Facilis, adipisci! Ratione hic repudiandae
-                    temporibus eum earum?
-                </span>
+                <img src={content.imgTitle} alt="" />
+                <span className="desc">{content.desc}</span>
                 <div className="buttons">
                     <button className="play">
                         <MdPlayArrow />
