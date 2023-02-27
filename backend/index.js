@@ -1,12 +1,13 @@
 const express = require("express");
 const env = require("./config/envConfig");
 const connect = require("./config/db");
+const cors = require("cors");
 const port = env.PORT || 8800;
-
 // database connection
 connect();
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 app.use("/api/v1/auth", require("./routes/auth"))

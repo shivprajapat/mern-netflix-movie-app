@@ -1,21 +1,22 @@
 import React from 'react'
 import './style.scss';
 import { MdArrowBackIos } from "react-icons/md";
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Watch = () => {
+  
+  const location = useLocation();
+  const navigate = useNavigate()
+  const movie = location.state.movie;
+
+  console.log('movie :>> ', movie);
   return (
     <div className="watch">
-      <div className="back">
+      <div className="back" onClick={() => navigate(-1)}>
         <MdArrowBackIos />
-        Home
+        {movie.title}
       </div>
-      <video
-        className="video"
-        autoPlay
-        progress
-        controls
-        src="https://player.vimeo.com/external/371433846.sd.mp4?s=236da2f3c0fd273d2c6d9a064f3ae35579b2bbdf&profile_id=139&oauth2_token_id=57447761"
-      />
+      <video className="video" autoPlay progress={toString()} controls src={movie.video} />
     </div>
   )
 }

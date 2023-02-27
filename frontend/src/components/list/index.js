@@ -3,7 +3,10 @@ import './style.scss';
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import ListItem from '../listitem';
 
-const List = () => {
+const List = ({ list }) => {
+
+  const { title, content } = list;
+
   const [isMoved, setIsMoved] = useState(false);
   const [slideNumber, setSlideNumber] = useState(0);
 
@@ -23,7 +26,7 @@ const List = () => {
   };
   return (
     <div className="list">
-      <span className="listTitle">Continue to watch</span>
+      <span className="listTitle">{title}</span>
       <div className="wrapper">
         <MdArrowBackIos
           className="sliderArrow left"
@@ -31,7 +34,7 @@ const List = () => {
           style={{ display: !isMoved && "none" }}
         />
         <div className="container" ref={listRef}>
-          <ListItem index={0} />
+          {/* <ListItem index={0} />
           <ListItem index={1} />
           <ListItem index={2} />
           <ListItem index={3} />
@@ -40,7 +43,10 @@ const List = () => {
           <ListItem index={6} />
           <ListItem index={7} />
           <ListItem index={8} />
-          <ListItem index={9} />
+          <ListItem index={9} /> */}
+          {content.map((item, i) => (
+            <ListItem index={i} key={i} item={item} />
+          ))}
         </div>
         <MdArrowForwardIos
           className="sliderArrow right"
